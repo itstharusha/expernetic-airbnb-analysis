@@ -1,5 +1,5 @@
-# Use official lightweight Python image
-FROM python:3.10-slim
+# Use a stable Debian-based Python image for package compatibility
+FROM python:3.10-slim-bookworm
 
 # Prevent Python from writing .pyc files and enable unbuffered logging
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -8,19 +8,20 @@ ENV PYTHONUNBUFFERED=1
 # Set working directory inside container
 WORKDIR /app
 
-# Install system dependencies (needed for certain python packages)
-RUN apt-get update && apt-get install -y \
+# Install system dependencies needed for scientific and ML packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
-    software-properties-common \
     git \
+    libgomp1 \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy only requirements first to leverage Docker cache
 COPY requirements.txt .
 
 # Install Python packages
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --upgrade pip && python -m pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
