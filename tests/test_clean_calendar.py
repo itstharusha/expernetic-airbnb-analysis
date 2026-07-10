@@ -1,4 +1,3 @@
-
 import pandas as pd
 
 from src.clean_calendar import clean_calendar

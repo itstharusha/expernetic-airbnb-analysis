@@ -15,13 +15,13 @@ def profile_file(
 ) -> pd.DataFrame:
     """
     Profiles a given CSV file by loading it and displaying basic statistics.
-    
+
     Args:
         path: Path to the CSV file.
         name: Name of the dataset for logging purposes.
         nrows: Number of rows to read (useful for large files).
         compression: Compression type of the file.
-        
+
     Returns:
         The loaded Pandas DataFrame.
     """
@@ -31,10 +31,12 @@ def profile_file(
     except Exception as e:
         logger.error(f"Failed to read {path}: {e}")
         raise
-        
+
     logger.info(f"Shape: {df.shape}")
     logger.info(f"\nColumn dtypes:\n{df.dtypes}")
-    logger.info(f"\nNull counts (top 20):\n{df.isnull().sum().sort_values(ascending=False).head(20)}")
+    logger.info(
+        f"\nNull counts (top 20):\n{df.isnull().sum().sort_values(ascending=False).head(20)}"
+    )
     logger.info(f"\nSample rows:\n{df.head(2)}")
     return df
 
@@ -44,7 +46,7 @@ if __name__ == "__main__":
     calendar = profile_file("data/raw/calendar.csv.gz", "CALENDAR", nrows=100000)
     reviews = profile_file("data/raw/reviews.csv.gz", "REVIEWS (detailed)", nrows=100000)
     neighbourhoods = profile_file("data/raw/neighbourhoods.csv", "NEIGHBOURHOODS")
-    
+
     logger.info(f"\n{'=' * 80}\nINVESTIGATING THE 15293 NULL PATTERN\n{'=' * 80}")
     logger.info(f"Total rows in listings: {len(listings)}")
     logger.info(f"Rows missing host_since: {listings['host_since'].isnull().sum()}")
@@ -68,4 +70,3 @@ if __name__ == "__main__":
     logger.info(f"{'=' * 80}")
     null_pct = (listings.isnull().sum() / len(listings) * 100).sort_values(ascending=False)
     logger.info(f"\n{null_pct.to_string()}")
-

@@ -25,8 +25,7 @@ def get_data(db_path: str) -> pd.DataFrame:
     logger.info(f"Loading data from warehouse at {db_path}...")
     try:
         con = duckdb.connect(db_path, read_only=True)
-        raw = con.execute(
-            """
+        raw = con.execute("""
             SELECT f.listing_id, f.price,
                    l.room_type, l.property_type, l.accommodates,
                    l.bathrooms, l.bedrooms, l.beds,
@@ -43,8 +42,7 @@ def get_data(db_path: str) -> pd.DataFrame:
             JOIN dim_host         h ON l.host_id = h.host_id
             JOIN v_listing_demand v ON f.listing_id = v.listing_id
             WHERE f.price IS NOT NULL AND l.price_is_valid AND v.demand_segment = 'active'
-            """
-        ).df()
+            """).df()
         con.close()
         return raw
     except Exception as e:
@@ -90,9 +88,7 @@ def train_model(args: argparse.Namespace) -> None:
         {"Entire home/apt": 3, "Private room": 2, "Hotel room": 1, "Shared room": 0}
     )
 
-    neighbourhood_dummies = pd.get_dummies(
-        df["neighbourhood_group"], prefix="ng", drop_first=True
-    )
+    neighbourhood_dummies = pd.get_dummies(df["neighbourhood_group"], prefix="ng", drop_first=True)
     df = pd.concat([df, neighbourhood_dummies], axis=1)
 
     feature_cols = [
@@ -173,9 +169,9 @@ def train_model(args: argparse.Namespace) -> None:
             "n_estimators": args.n_estimators,
             "max_depth": args.max_depth,
             "learning_rate": args.learning_rate,
-            "seed": args.seed
+            "seed": args.seed,
         },
-        "metrics": {"train_mae": mae, "train_rmse": rmse}
+        "metrics": {"train_mae": mae, "train_rmse": rmse},
     }
 
     exp_file = os.path.join(EXPERIMENTS_DIR, f"run_{run_id}.json")
