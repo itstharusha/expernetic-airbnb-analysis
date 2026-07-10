@@ -172,7 +172,7 @@ streamlit run app/streamlit_dashboard.py
 
 ---
 
-## 🖥️ Streamlit Dashboard Walkthrough
+##  Streamlit Dashboard Walkthrough
 
 The Streamlit dashboard acts as the primary visualization layer. Below are placeholders for tab-specific screenshots to capture once deployed:
 
@@ -202,20 +202,6 @@ Our flagship predictive and generative tab. Input listing parameters to get an X
 
 ---
 
-## 📊 Analytics and Database Schema
-
-The platform implements a star schema model in DuckDB designed to minimize analytical query latency.
-
-### Fact Table
-* `fact_listing_performance`: Captures nightly prices, availability, review aggregate scores, occupancy proxies, and derived revenue estimates.
-
-### Dimension Tables
-* `dim_listing`: Property capacities, room types, clean parsed amenity arrays, and compliance night constraints.
-* `dim_neighbourhood`: Centroid spatial coordinates and administrative district groupings.
-* `dim_host`: Superhost indicators, total listings counts, response rates, and tenure metrics.
-
-
----
 
 ## Analytics and Database Schema
 
