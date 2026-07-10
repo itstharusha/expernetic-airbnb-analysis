@@ -37,7 +37,7 @@ def clean_calendar(input_path: str, output_path: str, force: bool = False) -> pd
     df["date"] = pd.to_datetime(df["date"], errors="coerce")
 
     # 2. Standardize 'available' to boolean
-    df["available"] = df["available"].replace({"t": True, "f": False})
+    df["available"] = df["available"].map({"t": True, "f": False}).astype(object)
 
     # 3. Validate min/max nights are sane
     logger.warning(f"Negative minimum_nights: {(df['minimum_nights'] < 0).sum()}")

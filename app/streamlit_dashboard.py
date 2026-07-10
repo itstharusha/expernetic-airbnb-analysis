@@ -431,7 +431,8 @@ with tab4:
                                 "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY price) "
                                 "FROM stg_listings "
                                 f"WHERE neighbourhood_group_cleansed = '{safe_ng}' "
-                                f"AND room_type = '{rt}' AND price > 0"
+                                f"AND room_type = '{rt}' "
+                                "AND price > 0"
                             )
                             ng_rt_median = con.execute(med_query).fetchone()[0]
 
@@ -439,10 +440,12 @@ with tab4:
                                 "SELECT count(*) * 100.0 / "
                                 "(SELECT count(*) FROM stg_listings "
                                 f"WHERE neighbourhood_group_cleansed = '{safe_ng}' "
-                                f"AND room_type = '{rt}' AND price > 0) "
+                                f"AND room_type = '{rt}' "
+                                "AND price > 0) "
                                 "FROM stg_listings "
                                 f"WHERE neighbourhood_group_cleansed = '{safe_ng}' "
-                                f"AND room_type = '{rt}' AND price <= {pred_price} "
+                                f"AND room_type = '{rt}' "
+                                f"AND price <= {pred_price} "
                                 "AND price > 0"
                             )
                             percentile = con.execute(rank_query).fetchone()[0]
