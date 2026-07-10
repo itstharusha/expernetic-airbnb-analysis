@@ -12,6 +12,34 @@ This repository hosts a production-grade, end-to-end data platform built to inge
 
 The system implements a classic ELT pipeline leveraging DuckDB as a high-performance, serverless analytical warehouse. It integrates an XGBoost regression model for predictive pricing, a cosine-similarity-based content recommender to address cold-start recommendations, and a Generative AI Dynamic Pricing Advisor powered by Groq to translate model explainability metrics into business-facing strategy. The entire workflow is surfaced through a responsive Streamlit dashboard.
 
+## Submission Readiness Summary
+
+This repository is organized as a submission package for the Expernetic technical assignment. The core deliverables are present and wired together:
+
+- end-to-end ETL pipeline and data warehouse build scripts
+- analysis reports and assumptions log in the reports folder
+- interactive dashboard and optional AI pricing advisor flow
+- automated tests for core cleaning and warehouse expectations
+
+### Verified workflow
+
+```powershell
+python -m venv venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python -m pytest
+python scripts/run_pipeline.py --force
+streamlit run app/streamlit_dashboard.py
+```
+
+### Submission checklist
+
+- Source code: present under src/, scripts/, and app/
+- Reproducibility: Python environment and dependency instructions included
+- Report artifacts: available in reports/
+- AI disclosure: covered in the report appendix and submission summary
+- Incomplete/optional work: documented honestly rather than overstated
+
 ---
 
 ## System Architecture and Data Flow
@@ -144,9 +172,44 @@ streamlit run app/streamlit_dashboard.py
 
 ---
 
-## Streamlit Dashboard Walkthrough
+## 🖥️ Streamlit Dashboard Walkthrough
 
-The Streamlit dashboard acts as the primary visualization layer for the analysis. It is structured around a set of tabs covering market overview, geographic analysis, host intelligence, AI pricing guidance, and AI-generated market briefings.
+The Streamlit dashboard acts as the primary visualization layer. Below are placeholders for tab-specific screenshots to capture once deployed:
+
+### 1. Market Overview Tab
+High-level KPIs, price distribution histograms, and interactive filter controls (neighbourhood, room type, capacity).
+> **[INSERT SCREENSHOT: Market Overview tab interface showing price histograms and metrics]**
+
+### 2. Geographic & Spatial Analysis Tab
+Geographic price tier mappings, spatial distributions, and average pricing gradients across Barcelona.
+> **[INSERT SCREENSHOT: Spatial Analysis map visualization showing district price trends]**
+
+### 3. Host Intelligence Tab
+Insights on market concentration, portfolio sizes, professionalization rates, and the Superhost review premium.
+> **[INSERT SCREENSHOT: Host Portfolio Concentration showing power-law dominance]**
+
+### 4. AI Pricing Advisor Tab
+Our flagship predictive and generative tab. Input listing parameters to get an XGBoost price estimate, local percentiles, SHAP feature impact, and dynamic strategy from Llama-3.
+> **[INSERT SCREENSHOT: AI Pricing Advisor tab displaying LLM recommendation and SHAP bars]**
+
+### 5. AI Market Briefings Tab
+Auto-generated executive briefs, host positioning guidelines, and regulatory alerts regarding the 2028 HUTB licence expiry cliff.
+> **[INSERT SCREENSHOT: AI briefings text interface showing generated market narrative]**
+
+---
+
+## 📊 Analytics and Database Schema
+
+The platform implements a star schema model in DuckDB designed to minimize analytical query latency.
+
+### Fact Table
+* `fact_listing_performance`: Captures nightly prices, availability, review aggregate scores, occupancy proxies, and derived revenue estimates.
+
+### Dimension Tables
+* `dim_listing`: Property capacities, room types, clean parsed amenity arrays, and compliance night constraints.
+* `dim_neighbourhood`: Centroid spatial coordinates and administrative district groupings.
+* `dim_host`: Superhost indicators, total listings counts, response rates, and tenure metrics.
+
 
 ---
 

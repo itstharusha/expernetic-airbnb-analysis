@@ -1,6 +1,11 @@
 import argparse
 import sys
 import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from src.build_warehouse import build_warehouse
 from src.clean_calendar import clean_calendar
