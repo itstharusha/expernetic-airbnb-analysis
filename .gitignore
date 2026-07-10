@@ -1,0 +1,16 @@
+# Environment and local tooling
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Large local artifacts
+/data/
+/reports/figures/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
