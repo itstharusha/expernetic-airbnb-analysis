@@ -36,7 +36,8 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
     logger.info("Building dimension tables...")
 
     # DIM_HOST — one row per host
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE dim_host AS
         SELECT DISTINCT
             host_id,
@@ -49,20 +50,24 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             hosts_time_as_user_years,
             host_location
         FROM stg_listings
-    """)
+    """
+    )
 
     # DIM_NEIGHBOURHOOD
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE dim_neighbourhood AS
         SELECT DISTINCT
             neighbourhood_cleansed AS neighbourhood_name,
             neighbourhood_group_cleansed AS neighbourhood_group
         FROM stg_listings
         WHERE neighbourhood_cleansed IS NOT NULL
-    """)
+    """
+    )
 
     # DIM_LISTING — descriptive attributes only
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE dim_listing AS
         SELECT
             id AS listing_id,
@@ -80,10 +85,12 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             price_is_valid,
             location_is_valid
         FROM stg_listings
-    """)
+    """
+    )
 
     # DIM_DATE — generated from calendar's date range
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE dim_date AS
         SELECT DISTINCT
             date,
@@ -92,12 +99,14 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             EXTRACT(dow FROM date) AS day_of_week,
             CASE WHEN EXTRACT(dow FROM date) IN (0, 6) THEN TRUE ELSE FALSE END AS is_weekend
         FROM stg_calendar
-    """)
+    """
+    )
 
     logger.info("Building fact tables...")
 
     # FACT_LISTING_PERFORMANCE — one row per listing (grain: listing)
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE fact_listing_performance AS
         SELECT
             id AS listing_id,
@@ -116,9 +125,11 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             maximum_nights,
             calculated_host_listings_count
         FROM stg_listings
-    """)
+    """
+    )
     # DEMAND SEGMENTATION VIEW (Finding 8)
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE VIEW v_listing_demand AS
         SELECT
             listing_id,
@@ -130,10 +141,12 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
                 ELSE 'active'
             END AS demand_segment
         FROM fact_listing_performance
-    """)
+    """
+    )
 
     # FACT_CALENDAR — one row per listing per date (grain: listing x date)
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE fact_calendar AS
         SELECT
             c.listing_id,
@@ -143,10 +156,12 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             c.maximum_nights
         FROM stg_calendar c
         INNER JOIN dim_listing l ON c.listing_id = l.listing_id
-    """)
+    """
+    )
 
     # FACT_REVIEWS — one row per review (grain: review)
-    con.execute("""
+    con.execute(
+        """
         CREATE OR REPLACE TABLE fact_reviews AS
         SELECT
             r.id AS review_id,
@@ -156,7 +171,8 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             r.comment_length
         FROM stg_reviews r
         INNER JOIN dim_listing l ON r.listing_id = l.listing_id
-    """)
+    """
+    )
 
     logger.info("\n--- Table row counts ---")
     for table in [

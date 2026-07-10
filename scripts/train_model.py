@@ -25,7 +25,8 @@ def get_data(db_path: str) -> pd.DataFrame:
     logger.info(f"Loading data from warehouse at {db_path}...")
     try:
         con = duckdb.connect(db_path, read_only=True)
-        raw = con.execute("""
+        raw = con.execute(
+            """
             SELECT f.listing_id, f.price,
                    l.room_type, l.property_type, l.accommodates,
                    l.bathrooms, l.bedrooms, l.beds,
@@ -42,7 +43,8 @@ def get_data(db_path: str) -> pd.DataFrame:
             JOIN dim_host         h ON l.host_id = h.host_id
             JOIN v_listing_demand v ON f.listing_id = v.listing_id
             WHERE f.price IS NOT NULL AND l.price_is_valid AND v.demand_segment = 'active'
-            """).df()
+            """
+        ).df()
         con.close()
         return raw
     except Exception as e:
