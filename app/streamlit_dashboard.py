@@ -149,19 +149,31 @@ with tab1:
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.markdown(
-            f'<div class="metric-card"><div class="metric-value">{len(df_filtered):,}</div><div class="metric-label">Total Listings</div></div>',
+            (
+                f'<div class="metric-card">'
+                f'<div class="metric-value">{len(df_filtered):,}</div>'
+                f'<div class="metric-label">Total Listings</div></div>'
+            ),
             unsafe_allow_html=True,
         )
     with col2:
         median_price = df_filtered["price"].median()
         st.markdown(
-            f'<div class="metric-card"><div class="metric-value">€{median_price:.2f}</div><div class="metric-label">Median Price</div></div>',
+            (
+                f'<div class="metric-card">'
+                f'<div class="metric-value">€{median_price:.2f}</div>'
+                f'<div class="metric-label">Median Price</div></div>'
+            ),
             unsafe_allow_html=True,
         )
     with col3:
         avg_rating = df_filtered["review_scores_rating"].mean()
         st.markdown(
-            f'<div class="metric-card"><div class="metric-value">{avg_rating:.2f}</div><div class="metric-label">Avg Rating</div></div>',
+            (
+                f'<div class="metric-card">'
+                f'<div class="metric-value">{avg_rating:.2f}</div>'
+                f'<div class="metric-label">Avg Rating</div></div>'
+            ),
             unsafe_allow_html=True,
         )
     with col4:
@@ -171,7 +183,11 @@ with tab1:
             else 0
         )
         st.markdown(
-            f'<div class="metric-card"><div class="metric-value">{active_pct:.1f}%</div><div class="metric-label">% Active</div></div>',
+            (
+                f'<div class="metric-card">'
+                f'<div class="metric-value">{active_pct:.1f}%</div>'
+                f'<div class="metric-label">% Active</div></div>'
+            ),
             unsafe_allow_html=True,
         )
 
@@ -337,15 +353,28 @@ with tab4:
                         # 1. Fetch data
                         con = duckdb.connect(DB_PATH, read_only=True)
                         query = f"""
-                            SELECT f.listing_id, f.price,
-                                   l.room_type, l.accommodates, l.bathrooms, l.bedrooms, l.beds,
-                                   l.neighbourhood_name, n.neighbourhood_group,
-                                   h.host_is_superhost, h.host_listings_count, h.hosts_time_as_host_years,
-                                   f.number_of_reviews, f.review_scores_rating,
-                                   f.review_scores_cleanliness, f.review_scores_location,
-                                   f.review_scores_value, f.availability_365,
-                                   f.minimum_nights, f.estimated_occupancy_l365d,
-                                   v.demand_segment
+                            SELECT
+                                f.listing_id,
+                                f.price,
+                                l.room_type,
+                                l.accommodates,
+                                l.bathrooms,
+                                l.bedrooms,
+                                l.beds,
+                                l.neighbourhood_name,
+                                n.neighbourhood_group,
+                                h.host_is_superhost,
+                                h.host_listings_count,
+                                h.hosts_time_as_host_years,
+                                f.number_of_reviews,
+                                f.review_scores_rating,
+                                f.review_scores_cleanliness,
+                                f.review_scores_location,
+                                f.review_scores_value,
+                                f.availability_365,
+                                f.minimum_nights,
+                                f.estimated_occupancy_l365d,
+                                v.demand_segment
                             FROM fact_listing_performance f
                             JOIN dim_listing l ON f.listing_id = l.listing_id
                             JOIN dim_neighbourhood n ON l.neighbourhood_name = n.neighbourhood_name
@@ -397,10 +426,25 @@ with tab4:
                             # Market context
                             ng = raw_dict["neighbourhood_group"]
                             rt = raw_dict["room_type"]
-                            med_query = f"SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY price) FROM stg_listings WHERE neighbourhood_group_cleansed = '{ng.replace('''"''', "''")}' AND room_type = '{rt}' AND price > 0"
+                            safe_ng = ng.replace('"', "''")
+                            med_query = (
+                                "SELECT percentile_cont(0.5) WITHIN GROUP (ORDER BY price) "
+                                "FROM stg_listings "
+                                f"WHERE neighbourhood_group_cleansed = '{safe_ng}' "
+                                f"AND room_type = '{rt}' AND price > 0"
+                            )
                             ng_rt_median = con.execute(med_query).fetchone()[0]
 
-                            rank_query = f"SELECT count(*) * 100.0 / (SELECT count(*) FROM stg_listings WHERE neighbourhood_group_cleansed = '{ng.replace('''"''', "''")}' AND room_type = '{rt}' AND price > 0) FROM stg_listings WHERE neighbourhood_group_cleansed = '{ng.replace('''"''', "''")}' AND room_type = '{rt}' AND price <= {pred_price} AND price > 0"
+                            rank_query = (
+                                "SELECT count(*) * 100.0 / "
+                                "(SELECT count(*) FROM stg_listings "
+                                f"WHERE neighbourhood_group_cleansed = '{safe_ng}' "
+                                f"AND room_type = '{rt}' AND price > 0) "
+                                "FROM stg_listings "
+                                f"WHERE neighbourhood_group_cleansed = '{safe_ng}' "
+                                f"AND room_type = '{rt}' AND price <= {pred_price} "
+                                "AND price > 0"
+                            )
                             percentile = con.execute(rank_query).fetchone()[0]
 
                             con.close()
@@ -441,25 +485,30 @@ with tab4:
                                     impact = shap_values.values[0, i]
                                     direction = "increases" if impact > 0 else "decreases"
                                     top_drivers.append(
-                                        f"{feat} (value: {val:.1f}) {direction} price by {abs(impact):.2f} log-euros"
+                                        f"{feat} (value: {val:.1f}) {direction} "
+                                        f"price by {abs(impact):.2f} log-euros"
                                     )
 
                                 prompt = (
                                     f"""
-                                You are an expert Airbnb pricing consultant. Provide specific, actionable pricing advice in 3-4 short paragraphs.
-                                
+                                You are an expert Airbnb pricing consultant. Provide specific,
+                                actionable pricing advice in 3-4 short paragraphs.
+
                                 Listing details:
                                 - Type: {rt} in {ng}
                                 - Accommodates: {raw_dict['accommodates']}
                                 - Current Price: EUR {current_price:.2f}
                                 - Model Predicted Fair Price: EUR {pred_price:.2f}
-                                - Median Price for similar listings in this area: EUR {ng_rt_median:.2f}
-                                - Market Position: The predicted price is in the {percentile:.0f}th percentile.
-                                
+                                - Median Price for similar listings in this area:
+                                  EUR {ng_rt_median:.2f}
+                                - Market Position: The predicted price is in the
+                                  {percentile:.0f}th percentile.
+
                                 Top 5 factors influencing the predicted price:
                                 """
                                     + "\\n".join([f"- {d}" for d in top_drivers])
-                                    + "\\n\\nAnalyze these factors and give practical advice to the host on how to adjust their price or offering."
+                                    + "\\n\\nAnalyze these factors and give practical advice "
+                                    "to the host on how to adjust their price or offering."
                                 )
 
                                 try:
@@ -467,7 +516,11 @@ with tab4:
                                         messages=[
                                             {
                                                 "role": "system",
-                                                "content": "You are a professional, data-driven Airbnb pricing consultant. Be direct, insightful, and actionable.",
+                                                "content": (
+                                                    "You are a professional, data-driven Airbnb "
+                                                    "pricing consultant. Be direct, insightful, "
+                                                    "and actionable."
+                                                ),
                                             },
                                             {"role": "user", "content": prompt},
                                         ],
@@ -484,7 +537,8 @@ with tab4:
                                     st.error(f"Failed to generate LLM recommendation: {e}")
                             else:
                                 st.warning(
-                                    "Groq API key not configured. Cannot generate AI recommendation."
+                                    "Groq API key not configured. "
+                                    "Cannot generate AI recommendation."
                                 )
                     except Exception as e:
                         st.error(f"Error analyzing listing: {e}")
@@ -500,5 +554,6 @@ with tab5:
 
     if st.button("Regenerate Briefings (Simulated)"):
         st.info(
-            "In a full production environment, this would trigger a pipeline to query Groq with the latest data warehouse state."
+            "In a full production environment, this would trigger a pipeline to "
+            "query Groq with the latest data warehouse state."
         )

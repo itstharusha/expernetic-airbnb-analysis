@@ -7,11 +7,11 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src.build_warehouse import build_warehouse
-from src.clean_calendar import clean_calendar
-from src.clean_listings import clean_listings
-from src.clean_reviews import clean_reviews
-from src.logging_config import get_logger
+from src.build_warehouse import build_warehouse  # noqa: E402
+from src.clean_calendar import clean_calendar  # noqa: E402
+from src.clean_listings import clean_listings  # noqa: E402
+from src.clean_reviews import clean_reviews  # noqa: E402
+from src.logging_config import get_logger  # noqa: E402
 
 logger = get_logger(__name__)
 

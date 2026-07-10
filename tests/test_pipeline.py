@@ -31,9 +31,9 @@ def test_barcelona_lat_lon_bounds():
     lon_ok = df["longitude"].between(1.9, 2.3)
     location_is_valid = lat_ok & lon_ok
 
-    assert location_is_valid.iloc[0] == True  # Centroid Barcelona
-    assert location_is_valid.iloc[1] == False  # Out of bounds latitude
-    assert location_is_valid.iloc[2] == False  # Out of bounds longitude
+    assert location_is_valid.iloc[0]  # Centroid Barcelona
+    assert not location_is_valid.iloc[1]  # Out of bounds latitude
+    assert not location_is_valid.iloc[2]  # Out of bounds longitude
 
 
 def test_warehouse_tables_exist():

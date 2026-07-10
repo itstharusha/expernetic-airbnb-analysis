@@ -136,8 +136,10 @@ def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
             number_of_reviews,
             estimated_occupancy_l365d,
             CASE
-                WHEN number_of_reviews = 0 AND estimated_occupancy_l365d = 0 THEN 'never_active'
-                WHEN number_of_reviews > 0 AND estimated_occupancy_l365d = 0 THEN 'dormant_with_history'
+                WHEN number_of_reviews = 0 AND estimated_occupancy_l365d = 0
+                    THEN 'never_active'
+                WHEN number_of_reviews > 0 AND estimated_occupancy_l365d = 0
+                    THEN 'dormant_with_history'
                 ELSE 'active'
             END AS demand_segment
         FROM fact_listing_performance

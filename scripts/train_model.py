@@ -118,7 +118,8 @@ def train_model(args: argparse.Namespace) -> None:
     y = df["log_price"]
 
     logger.info(
-        f"Training XGBoost (seed={args.seed}, estimators={args.n_estimators}, depth={args.max_depth})..."
+        "Training XGBoost "
+        f"(seed={args.seed}, estimators={args.n_estimators}, depth={args.max_depth})..."
     )
     model = XGBRegressor(
         n_estimators=args.n_estimators,

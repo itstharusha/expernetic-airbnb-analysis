@@ -4,9 +4,9 @@ import subprocess
 
 def test_full_pipeline(tmp_path):
     """
-    Test the full run_pipeline.py on a small mocked dataset, or just verify it handles failures gracefully.
-    Since we don't have mock data for all files here, we'll verify it throws an error if data is missing,
-    or we can run it with a mocked sys.argv.
+    Test the full run_pipeline.py on a small mocked dataset, or just verify it handles
+    failures gracefully. Since we don't have mock data for all files here, we'll verify it
+    throws an error if data is missing, or we can run it with a mocked sys.argv.
     """
     script_path = os.path.abspath("scripts/run_pipeline.py")
 

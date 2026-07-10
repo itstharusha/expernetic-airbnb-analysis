@@ -62,7 +62,8 @@ if __name__ == "__main__":
     if "source" in listings.columns:
         logger.info(f"\nSource value counts overall:\n{listings['source'].value_counts()}")
         logger.info(
-            f"\nSource value counts WHERE host_since is null:\n{listings[listings['host_since'].isnull()]['source'].value_counts()}"
+            "\nSource value counts WHERE host_since is null:\n"
+            f"{listings[listings['host_since'].isnull()]['source'].value_counts()}"
         )
         logger.info(f"\n{'=' * 80}")
 
