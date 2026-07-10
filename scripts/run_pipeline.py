@@ -15,6 +15,7 @@ from src.logging_config import get_logger
 
 logger = get_logger(__name__)
 
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run the EXPERNETIC ETL pipeline.")
     parser.add_argument("--force", action="store_true", help="Force rebuild even if outputs exist.")
@@ -25,7 +26,7 @@ def main() -> None:
 
     start_time = time.time()
     logger.info("Starting EXPERNETIC ETL Pipeline")
-    
+
     try:
         logger.info("--- Step 1: Cleaning Listings ---")
         clean_listings(
@@ -58,6 +59,7 @@ def main() -> None:
     except Exception as e:
         logger.error(f"Pipeline failed: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

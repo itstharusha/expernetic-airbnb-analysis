@@ -10,7 +10,9 @@ pd.set_option("display.max_columns", None)
 pd.set_option("display.width", None)
 
 
-def profile_file(path: str, name: str, nrows: Optional[int] = None, compression: str = "infer") -> pd.DataFrame:
+def profile_file(
+    path: str, name: str, nrows: Optional[int] = None, compression: str = "infer"
+) -> pd.DataFrame:
     """
     Profiles a given CSV file by loading it and displaying basic statistics.
     
@@ -23,7 +25,7 @@ def profile_file(path: str, name: str, nrows: Optional[int] = None, compression:
     Returns:
         The loaded Pandas DataFrame.
     """
-    logger.info(f"\n{'='*80}\nPROFILE: {name}\n{'='*80}")
+    logger.info(f"\n{'=' * 80}\nPROFILE: {name}\n{'=' * 80}")
     try:
         df = pd.read_csv(path, compression=compression, nrows=nrows, low_memory=False)
     except Exception as e:
@@ -43,7 +45,7 @@ if __name__ == "__main__":
     reviews = profile_file("data/raw/reviews.csv.gz", "REVIEWS (detailed)", nrows=100000)
     neighbourhoods = profile_file("data/raw/neighbourhoods.csv", "NEIGHBOURHOODS")
     
-    logger.info(f"\n{'='*80}\nINVESTIGATING THE 15293 NULL PATTERN\n{'='*80}")
+    logger.info(f"\n{'=' * 80}\nINVESTIGATING THE 15293 NULL PATTERN\n{'=' * 80}")
     logger.info(f"Total rows in listings: {len(listings)}")
     logger.info(f"Rows missing host_since: {listings['host_since'].isnull().sum()}")
 
@@ -60,10 +62,10 @@ if __name__ == "__main__":
         logger.info(
             f"\nSource value counts WHERE host_since is null:\n{listings[listings['host_since'].isnull()]['source'].value_counts()}"
         )
-        logger.info(f"\n{'='*80}")
-        
+        logger.info(f"\n{'=' * 80}")
+
     logger.info("FULL NULL-RATE AUDIT — LISTINGS")
-    logger.info(f"{'='*80}")
+    logger.info(f"{'=' * 80}")
     null_pct = (listings.isnull().sum() / len(listings) * 100).sort_values(ascending=False)
     logger.info(f"\n{null_pct.to_string()}")
 
