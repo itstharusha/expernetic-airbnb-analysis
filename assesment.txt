@@ -1,0 +1,537 @@
+Experne'c (Pvt) Ltd
+Talent Assessment Program · Technical Assignment
+Data Engineer Intern
+Assignment
+
+ROLE Data Engineer Intern
+ASSIGNMENT Real-World Data Challenge
+DURATION 1 Week
+DATASET Inside Airbnb (Public)
+FORMAT DOCX → Candidate Copy
+CONFIDENTIAL · FOR CANDIDATE USE ONLY · DO NOT DISTRIBUTE WITHOUT AUTHORIZATION
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 1
+🚀 Welcome to the Experne/c Data Challenge
+Congratulations on advancing to the technical assessment stage. This assignment is your opportunity to
+demonstrate analytical thinking, engineering acumen, and your unique approach to solving real-world
+data problems. There are no trick questions; only open-ended challenges designed to let you shine.
+Read the entire document before you begin. Prioritize thoughtfully. Quality outweighs quantity.
+01 Introduc'on
+You have been engaged as a Data Engineer and Analyst supporting the business intelligence team of a
+hypothetical Airbnb market intelligence consultancy. Your stakeholders, including product managers,
+revenue strategists, and operations leads, need actionable insights derived from publicly available short-term
+rental data.
+The Inside Airbnb dataset provides a rich, real-world snapshot of Airbnb listings, host behaviors, pricing
+dynamics, availability calendars, and guest reviews across cities worldwide. Your task is to transform this raw
+data into meaningful engineering artifacts, analytical insights, and business recommendations.
+This assignment is deliberately designed to span a wide range of disciplines, from foundational data
+engineering through to advanced machine learning and generative AI experimentation. The breadth reflects
+the reality of modern data roles, where practitioners must fluidly move between engineering, analytics,
+statistics, and applied AI.
+💡 Design Philosophy
+This assignment is intentionally scoped beyond what can reasonably be completed in one week. That is
+by design. We are evaluating how you prioritize, how deeply you reason about the problems you choose,
+and how clearly you communicate your approach, not whether you complete every bullet point.
+A candidate who completes two sections with exceptional depth, clean code, and insightful storytelling
+will outperform one who attempts all sections superficially.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 2
+1.1 What This Assignment Tests
+Competency What We Evaluate
+Data Engineering Fundamentals Inges<on, profiling, cleaning, modeling, pipeline design
+Analy<cal Thinking EDA, sta<s<cal reasoning, business interpreta<on
+Data Science & ML Feature engineering, modeling, valida<on, explainability
+AI & LLM Literacy Responsible, crea<ve, and effec<ve use of AI tools
+Communica<on & Storytelling Transla<ng technical findings into business language
+Crea<vity & Ini<a<ve Going beyond the prompt; building something novel
+Professionalism Code quality, documenta<on, reproducibility, structure
+02 Dataset Familiariza'on
+Difficulty
+🟢 Beginner
+Es,mated Effort
+2–4 Hours
+Category
+Mandatory
+Before building any pipeline or model, a professional data prac<<oner always understands the source data
+thoroughly. This sec<on asks you to invest <me in genuine explora<on and documenta<on of the Inside
+Airbnb dataset.
+2.1 Dataset Source
+All data for this assignment is sourced exclusively from Inside Airbnb, a publicly available, independent
+dataset that provides detailed information on Airbnb listings across cities worldwide. No supplementary files
+or external data will be provided.
+🔗 Inside Airbnb Homepage: h[ps://insideairbnb.com/ — Project overview and methodology
+🔗 Dataset Download Page: h[ps://insideairbnb.com/get-the-data/ — City-level data files
+🔗 Data DicHonary:
+h[ps://docs.google.com/spreadsheets/d/1iWCNJcSutYqpULSQHlNyGInUvHg2BoUGoNRIGa6Szc4/ —
+Column defini<ons for all files
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 3
+🔗 Behind the Data: h[ps://insideairbnb.com/behind-the-data/ — Data collec<on methodology and
+limita<ons
+🔗 Policy Analysis Tool: h"ps://insideairbnb.com/research/ — Research and analysis context
+2.2 Available Files Per City
+Each city dataset typically includes the following files. Availability may vary by city:
+File DescripHon
+lis<ngs.csv.gz Core lis<ng data: price, room type, loca<on, host info, ameni<es
+lis<ngs.csv (detailed) Expanded lis<ng a[ributes including descrip<ons and full metadata
+calendar.csv.gz Daily price and availability data per lis<ng (365 days)
+reviews.csv.gz Guest review text with reviewer ID, date, and lis<ng reference
+reviews.csv (summary) Aggregated review metrics per lis<ng
+neighbourhoods.csv Neighbourhood names and geospa<al groupings
+neighbourhoods.geojson GeoJSON polygon data for neighbourhood boundaries
+2.3 ExploraBon Tasks
+▸ Download at least one city dataset and extract all available files.
+▸ Document the schema of each file: column names, data types, ranges, and sample values.
+▸ Map the rela<onships between files and iden<fy primary and foreign keys where applicable.
+▸ Review the official data dic<onary and note any columns requiring special interpreta<on.
+▸ Iden<fy dataset limita<ons: coverage gaps, scraping ar<facts, missing historical data.
+▸ Document your assump<ons about ambiguous fields before proceeding to analysis.
+▸ Describe the business domain context: what does each en<ty (lis<ng, host, review) represent?
+▸ If selec<ng mul<ple ci<es: compare schemas across ci<es and note structural differences.
+🌍 Mul/-City Guidance
+Candidates selec<ng mul<ple ci<es should addi<onally: • Compare dataset sizes, recency, and coverage
+across ci<es. • Note structural inconsistencies (column names, encodings, formats). • Document your
+harmoniza<on strategy before engineering begins.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 4
+03 Data Engineering Challenges
+Difficulty
+🔵 Intermediate → 🟣 Expert
+Es,mated Effort
+8–20 Hours
+Category
+Recommended
+Data engineering is at the core of every reliable analytics and machine learning system. This section
+challenges you to build production-quality data infrastructure, from raw data ingestion through to clean,
+validated, and analytics-ready datasets.
+3.1 Data IngesBon & Profiling
+▸ Design and implement a repeatable inges<on pipeline that downloads and extracts city data.
+▸ Profile each dataset: row counts, column cardinality, null rates, data type distribu<ons.
+▸ Generate a data quality report summarizing findings across all ingested files.
+▸ Detect and document duplicate records using determinis<c and fuzzy matching techniques.
+▸ Assess completeness: which fields are most frequently missing and what are the implica<ons?
+▸ Iden<fy outliers in key numerical fields (price, availability, number of reviews).
+▸ Validate data against domain expecta<ons (e.g., price cannot be nega<ve, la<tude/longitude must be
+valid).
+3.2 Data Cleaning & StandardizaBon
+▸ Standardize price columns: remove currency symbols, handle thousands separators, cast to numeric.
+▸ Parse and standardize date fields across all relevant files.
+▸ Normalize free-text fields (e.g., property types, room types) into consistent categorical values.
+▸ Handle missing values with appropriate strategies: imputa<on, sen<nel values, or explicit nulls.
+▸ Remove or flag records that fail valida<on rules, documen<ng your decisions.
+▸ Standardize geographic fields: neighbourhood names, city names, and coordinate precision.
+3.3 Data Enrichment & Joining
+▸ Join lis<ngs with review summaries to create an enriched lis<ng master table.
+▸ Integrate calendar data to compute per-lis<ng occupancy rates and revenue es<mates.
+▸ Enrich lis<ngs with neighbourhood-level aggregates (median price, lis<ng density, average ra<ng).
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 5
+▸ Derive calculated fields: host tenure (years on plakorm), review frequency, price-per-bedroom.
+▸ If mul<ple ci<es are selected: build a unified cross-city master dataset with consistent schemas.
+3.4 Data Modeling
+▸ Design a dimensional model (star schema) suitable for analy<cal queries on this dataset.
+▸ Define fact tables and dimension tables; document primary and foreign key rela<onships.
+▸ Implement your model in a database or analy<cal engine of your choice (e.g., DuckDB, SQLite,
+PostgreSQL, BigQuery).
+▸ Write SQL queries demonstra<ng key analy<cal use cases against your model.
+▸ Discuss trade-offs in your modeling decisions (denormaliza<on, slowly changing dimensions, etc.).
+3.5 Pipeline Design & AutomaBon
+▸ Implement an automated, configurable pipeline that can process any city with minimal code changes.
+▸ Add logging, error handling, and retry logic to your pipeline.
+▸ Implement incremental processing logic and describe how newly scraped data would be handled
+without requiring full reprocessing.
+▸ Design a metadata management layer: track when datasets were ingested, processed, and validated.
+▸ Document data lineage: for each output table, trace the transforma<ons from source to sink.
+3.6 Advanced & Cloud-NaBve Topics
+Difficulty
+🟣 Expert
+Es,mated Effort
+6–12 Hours
+Category
+OpAonal
+▸ Design a scalable architecture for processing 50+ ci<es concurrently. What changes?
+▸ Discuss or implement par<<oning strategies for the calendar dataset at scale.
+▸ Implement or describe a change data capture (CDC) strategy for the lis<ngs table.
+▸ Deploy or describe a cloud-na<ve implementa<on (AWS, GCP, Azure) with managed services.
+▸ Containerize your pipeline using Docker; provide a working docker-compose.yml.
+▸ Implement data quality checks as code (e.g., Great Expecta<ons, dbt tests, custom framework).
+▸ Discuss produc<on-readiness considera<ons: monitoring, aler<ng, SLA tracking, cost op<miza<on.
+📋 Engineering Decision Log
+For every significant engineering decision, including tool selec<on, architectural choice, and schema
+design, include a brief Decision Log entry in your report explaining: • What op<ons you considered •
+Why you chose your approach • What trade-offs you accepted. This is where senior engineers and
+interviewers will focus most of their a[en<on.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 6
+04 Exploratory Data Analysis
+Difficulty
+🔵 Intermediate
+Es,mated Effort
+6–10 Hours
+Category
+Recommended
+Exploratory Data Analysis (EDA) is the foundation of any successful analytics project. This section asks you to
+go beyond summary statistics and uncover the stories hidden within the data, stories that translate directly
+into business decisions.
+4.1 Summary StaBsBcs & DistribuBons
+▸ Compute and interpret descrip<ve sta<s<cs for all key numerical variables.
+▸ Visualize price distribu<ons by city, neighbourhood, room type, and property type.
+▸ Analyze the distribu<on of lis<ng counts per host (power law dynamics in hos<ng).
+▸ Examine review score distribu<ons and iden<fy poten<al ra<ng infla<on pa[erns.
+▸ Explore availability pa[erns: how does average availability vary across ci<es or seasons?
+4.2 Geographic & SpaBal Analysis
+▸ Map lis<ng density across neighbourhoods using geospa<al visualiza<on.
+▸Iden<fy geographic pricing gradients and determine whether lis<ngs closer to city centres command
+premium prices.
+▸ Visualize review scores spa<ally to iden<fy neighbourhoods with consistently high or low ra<ngs.
+▸ Explore the geographic clustering of different property and room types.
+▸ If mul<ple ci<es: build a compara<ve geographic overview across markets.
+4.3 Temporal & Seasonal Trends
+▸ Analyze how pricing evolves over the calendar year and iden<fy peak seasons.
+▸ Examine review volume trends: are bookings growing or declining in the selected city?
+▸ Explore host tenure distribu<ons: are newer hosts priced differently than established ones?
+▸ Inves<gate minimum night policies and how they shin across seasons or events.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 7
+4.4 Host & Supply-Side Analysis
+▸ Segment hosts by porkolio size (single lis<ng vs. mul<-lis<ng commercial operators).
+▸ Compare pricing strategies of professional hosts vs. casual hosts.
+▸ Analyze the rela<onship between host response rate/superhost status and lis<ng performance.
+▸ Explore the concentra<on of market supply: what percentage of hosts control the majority of lis<ngs?
+4.5 Review & Demand-Side Analysis
+▸ Examine the rela<onship between review count, review score, and price.
+▸ Analyze review frequency as a proxy for booking demand.
+▸ Iden<fy lis<ngs with high review counts but low scores and determine what characterizes them.
+▸ Explore review score sub-dimensions (cleanliness, loca<on, communica<on) if available.
+📊 Business Interpreta/on Requirement
+Every visualization or statistical finding must be accompanied by a plain-English business interpretation.
+Do not stop at statements such as “the price distribution is right-skewed.” Instead, explain what the
+finding means for a market participant, platform operator, or investor, and describe the actions it might
+motivate.
+05 Sta's'cal Analysis
+Difficulty
+🔵 Intermediate → 🟠 Advanced
+Es,mated Effort
+6–12 Hours
+Category
+Recommended
+Sta<s<cal rigor separates credible analy<cal work from surface-level observa<on. This sec<on challenges you
+to apply formal sta<s<cal methods to substan<ate or refute hypotheses about the Airbnb marketplace.
+5.1 Hypothesis TesBng
+▸ H1: En<re-home lis<ngs command sta<s<cally significantly higher prices than private rooms.
+▸ H2: Superhost lis<ngs achieve higher review scores than non-superhost lis<ngs.
+▸ H3: Lis<ngs with more than 10 reviews have significantly different prices than lis<ngs with fewer.
+▸ H4: Neighbourhood average prices differ significantly (ANOVA across neighbourhood groups).
+▸ H5: Weekend vs. weekday pricing differences are sta<s<cally significant (from calendar data).
+For each hypothesis: state the null and alterna<ve, select an appropriate test, check assump<ons, report the
+test sta<s<c, p-value, and effect size, and interpret the result in business terms.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 8
+5.2 Confidence Intervals & Effect Sizes
+▸ Compute confidence intervals for mean prices by neighbourhood and room type.
+▸ Report effect sizes (Cohen's d, eta-squared) alongside p-values, as sta<s<cal significance alone is
+insufficient.
+▸ Discuss the prac<cal significance of your findings vs. sta<s<cal significance.
+5.3 CorrelaBon & Driver Analysis
+▸ Compute a correla<on matrix across numerical features and iden<fy the strongest drivers of price.
+▸ Use regression (OLS or similar) to quan<fy the marginal impact of key predictors on price.
+▸ Apply mul<collinearity checks (VIF) and discuss implica<ons for your regression model.
+▸ Iden<fy non-linear rela<onships using visualiza<ons (sca[er plots, LOWESS curves).
+5.4 MulB-City Comparisons (if applicable)
+Difficulty
+🟠 Advanced
+Es,mated Effort
+4–8 Hours
+Category
+OpAonal
+▸ Apply appropriate mul<-comparison correc<ons (Bonferroni, FDR) when comparing across many ci<es.
+▸ Use effect sizes to compare the magnitude of price premiums across different markets.
+▸ Iden<fy markets where sta<s<cal pa[erns diverge significantly from the global trend.
+📐 Sta/s/cal Methodology Note
+For every sta<s<cal test, explicitly document: • Why this test was selected for this data and ques<on •
+Whether assump<ons (normality, independence, equal variance) were verified • How you handled
+viola<ons of assump<ons • How results should be interpreted by a non-technical stakeholder
+06 Data Science Challenges
+Difficulty
+🟠 Advanced
+Es,mated Effort
+10–20 Hours
+Category
+OpAonal
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 9
+This sec<on invites you to apply predic<ve modeling and machine learning to the Airbnb dataset. These
+challenges are en<rely op<onal, but candidates who approach them with rigor and depth will demonstrate
+readiness for senior technical discussions.
+6.1 Price PredicBon
+▸ Frame the price predic<on problem: what is the target variable and how will you evaluate success?
+▸ Perform feature engineering: extract amenity flags, encode categorical variables, create interac<on
+terms.
+▸ Train and compare at least three model families (e.g., Linear, Tree-based, Gradient Boos<ng).
+▸ Implement proper cross-valida<on with appropriate metrics (MAE, RMSE, MAPE).
+▸ Analyze residuals: are errors systema<c by loca<on, property type, or price range?
+▸ Apply model explainability tools (SHAP, LIME) to iden<fy the most impackul features.
+6.2 Demand & Availability ForecasBng
+▸ Using calendar data, build a forecast of lis<ng availability over <me.
+▸ Iden<fy and model seasonality pa[erns in booking behavior.
+▸ Discuss the challenges of demand forecas<ng in a two-sided marketplace.
+6.3 Host & LisBng SegmentaBon
+▸ Apply clustering algorithms (K-Means, DBSCAN, or hierarchical) to segment lis<ngs into dis<nct groups.
+▸ Profile each segment: what are the defining characteris<cs and business implica<ons?
+▸ Segment hosts by behavior pa[erns: pricing strategy, availability management, response prac<ces.
+▸ Evaluate clustering quality using silhoue[e scores and business interpretability.
+6.4 Model GeneralizaBon & Bias
+▸ Test whether your price model generalizes across neighbourhoods and determine whether it favors
+certain areas?
+▸ If mul<ple ci<es: test cross-city model transfer. Train on City A, evaluate on City B.
+▸ Iden<fy poten<al biases in training data and discuss fairness implica<ons.
+▸ Recommend mi<ga<ons for iden<fied biases before produc<on deployment.
+🔬 Data Science Documenta/on Standard
+For each model experiment, document in your report: • Problem framing and success criteria • Feature
+engineering decisions and ra<onale • Model selec<on ra<onale and hyperparameter choices • Valida<on
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 10
+strategy and results • Failure modes and limita<ons • How you would improve the model with more <me
+or data
+07 AI and Machine Learning Opportuni'es
+Difficulty
+🟣 Expert
+Es,mated Effort
+8–16 Hours
+Category
+OpAonal
+Modern data engineering and analy<cs increasingly intersect with applied AI, from NLP on unstructured data
+to LLM-powered insight genera<on and agen<c workflows. This sec<on invites bold experimenta<on.
+7.1 Natural Language Processing on Reviews
+▸ Apply sen<ment analysis to guest reviews and correlate sen<ment with numerical review scores.
+▸ Perform topic modeling (LDA, NMF, BERTopic) on review text to surface recurring themes.
+▸ Extract named en<<es (landmarks, ameni<es, complaints) from reviews using NER.
+▸ Build a review quality classifier: dis<nguish informa<ve reviews from superficial ones.
+▸ Iden<fy language pa[erns that predict low vs. high review scores.
+7.2 LLM-Powered Insight GeneraBon
+▸ Use an LLM (GPT-4o, Claude, Gemini) to generate natural-language summaries of your analy<cal
+findings.
+▸ Implement a Retrieval-Augmented Genera<on (RAG) system over the reviews corpus.
+▸ Build a Q&A interface that allows stakeholders to query the dataset in natural language.
+▸ Generate automated lis<ng improvement recommenda<ons using LLM analysis of review text.
+7.3 RecommendaBon & Discovery Systems
+▸ Design a lis<ng recommenda<on system based on user preferences and historical data.
+▸ Implement content-based filtering using lis<ng descrip<ons and amenity vectors.
+▸ Explore collabora<ve filtering concepts and their applicability to this dataset.
+▸ Discuss cold-start challenges and your proposed solu<ons.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 11
+7.4 GeneraBve AI & AgenBc ExperimentaBon
+▸ Design a data analysis agent that autonomously explores the dataset and surfaces insights.
+▸ Experiment with AI-generated lis<ng descrip<ons and compare them with human-wri[en equivalents.
+▸ Build an AI-powered dynamic pricing advisor that recommends price adjustments based on market
+signals.
+▸ Propose a responsible AI framework for deploying ML models in an Airbnb-like marketplace.
+▸ Design or prototype an MLOps workflow for con<nuous model retraining and monitoring.
+🧠 Encourage Experimenta/on
+There is no 'correct' answer in this sec<on. We want to see how you think about AI applica<on design,
+how you evaluate model outputs cri<cally, and how you document both successes and failures. A welldocumented failed experiment is more valuable than an undocumented success.
+08 Open Innova'on Challenge
+Difficulty
+🟢–🟣 Candidate Defined
+Es,mated Effort
+Candidate Defined
+Category
+OpAonal
+This is the section we are most excited about. There are no predefined tasks here. Instead, we challenge you
+to build something that creates genuine value, demonstrates your unique perspective, or explores territory
+we have not anticipated.
+⚡ Surprise Us
+We are ac<vely looking for originality. The candidates who stand out are those who see possibili<es
+beyond the prescribed tasks and have the ini<a<ve to pursue them. Think like a product builder, not just
+a task executor.
+8.1 InspiraBon (Not PrescripBon)
+The following are offered as inspira<on only. Your own ideas are equally welcome.
+Idea DescripAon
+Interac<ve Dashboard A live, exploratory dashboard (Streamlit, Dash, Observable, Power BI) for
+market analysis
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 12
+Geospa<al Visualiza<on An interac<ve map-based explorer of market dynamics across
+neighbourhoods
+Produc<on Architecture A fully designed cloud architecture diagram with cost es<mates and trade-off
+analysis
+MLOps Workflow An automated pipeline from data inges<on through model training to
+deployment
+AI Analyst Assistant A conversa<onal assistant that answers market ques<ons against the dataset
+Stream Processing Sim Simulate real-<me price monitoring and aler<ng using streaming
+architecture concepts
+Cost Op<miza<on Design An architectural proposal that reduces processing cost for a global-scale
+rollout
+Responsible AI
+Framework
+A comprehensive framework for ethical AI deployment in rental pricing
+Novel Analy<cal
+Approach
+An analy<cal lens or methodology not covered anywhere in this document
+Automated Repor<ng A system that auto-generates a weekly market intelligence PDF for
+stakeholders
+09 City Selec'on Guide
+You have complete freedom in choosing which ci<es to analyze. The Inside Airbnb dataset covers dozens of
+ci<es worldwide across mul<ple con<nents. Your selec<on should be driven by the skills you want to
+showcase and the scope of analysis you plan to conduct.
+City Count Difficulty What It Demonstrates
+1 City 🟢 Beginner–Intermediate Focus on depth, code quality, and storytelling. Master one
+market before generalizing.
+2–3 Ci<es 🔵 Intermediate–
+Advanced
+Introduce compara<ve analy<cs, cross-market insights, and
+mul<-source pipeline design.
+4–6 Ci<es 🟠 Advanced Demonstrate pipeline scalability, automa<on, configura<ondriven processing, and broader market pa[erns.
+7+ Ci<es 🟣 Expert Showcase produc<on-grade architecture, performance
+op<miza<on, and global-scale analy<cal thinking.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 13
+📌 More ci<es selected → More opportuni<es to demonstrate scalability, automa<on, and cross-market
+insight. However, quality always outweighs quan<ty. One city analyzed with excep<onal depth beats five
+ci<es skimmed superficially.
+10 AI Tools Usage Policy
+Expernetic actively encourages the thoughtful and responsible use of AI tools throughout this assignment.
+We believe that effective AI collaboration is itself a core professional skill, and we want to see how you
+leverage these tools while maintaining intellectual ownership of your work.
+🤖 AI Tools Are Encouraged
+You may use any AI tool you find helpful: ChatGPT · Claude · Gemini · GitHub Copilot · Cursor ·
+Perplexity · Local LLMs · Any other
+Open-source and free tools are encouraged but not mandatory. Use what makes you most effec<ve.
+10.1 Disclosure Requirements
+Disclosure Item What to Include
+AI Tools Used List every AI tool and model version you used during the assignment
+AI-Assisted Sec<ons Clearly iden<fy which parts of your code, analysis, or report were AI-assisted
+Prompts Used Include key prompts in an appendix — show us how you directed the AI
+Output Valida<on Explain how you verified, tested, and validated AI-generated outputs
+Modifica<ons Made Document meaningful changes you made to AI-generated code or text
+Cri<cal Assessment Note any cases where you rejected or substan<ally modified AI sugges<ons
+Trea<ng AI disclosure as an anerthought is itself a red flag. We are looking for candidates who approach AI
+tools with inten<onality, cri<cal thinking, and professional accountability.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 14
+11 Deliverables
+11.1 Mandatory Deliverables
+▸ Source Code: All code used in the assignment, organized in a clear directory structure with a README
+▸ Reproducibility InstrucHons: Step-by-step setup guide: dependencies, environment, data download,
+execu<on order
+▸ Professional PDF Report: Comprehensive wri[en report (see Sec<on 12 for full requirements)
+▸ AssumpHons & Decisions Log: Documented assump<ons made and major technical decisions explained
+▸ Summary: Completed Work: Clear summary of what was implemented and to what standard
+▸ Summary: Incomplete Work: An honest summary of what was not completed and why, including the
+ra<onale behind priori<za<on decisions.
+▸ AI Usage Disclosure: Full AI usage disclosure as specified in Sec<on 10
+11.2 OpBonal Deliverables (High-Value)
+▸ Jupyter Notebooks: Annotated notebooks with narra<ve explaining analy<cal decisions
+▸ InteracHve Dashboard: Deployed or locally runnable dashboard applica<on
+▸ PresentaHon Deck: Slide deck summarizing findings for a business audience
+▸ Demo Video: Short screen recording walking through your most impressive components
+▸ Docker Compose: Containerized environment ensuring full reproducibility
+▸ Architecture Diagram: Visual diagram of your data architecture with tool annota<ons
+▸ Cloud Deployment: Live cloud deployment with access URL and brief documenta<on
+▸ Unit Tests: Automated test suite for data quality checks and pipeline components
+▸ dbt Models: dbt project with documented models, tests, and lineage graphs
+11.3 Submission InstrucBons
+Submit your work via a shared GitHub repository (preferred) or a compressed archive. Ensure your repository
+README clearly lists all components, how to run them, and the order in which ar<facts should be reviewed.
+Ensure all creden<als, API keys, and personal data are excluded or anonymized.
+📁 Your repository README is your first impression. Treat it with the same care as the rest of your
+submission.
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 15
+12 Final Report Requirements
+Your report is the primary ar<fact through which interviewers will evaluate your thinking, communica<on,
+and analy<cal depth. It must be professional, well-structured, and readable by both technical and nontechnical stakeholders.
+# SecAon Guidance
+1 Execu<ve Summary A 1-page business-oriented summary of your most important
+findings and recommenda<ons
+2 Objec<ves & Scope What you set out to achieve, the ci<es selected, and your
+priori<za<on ra<onale
+3 Dataset Overview Dataset descrip<on, files used, rela<onships, limita<ons, and
+assump<ons
+4 Methodology Your overall analy<cal approach and the reasoning behind key
+method selec<ons
+5 Engineering
+Approach
+Pipeline design, architecture decisions, data model, and produc<on
+considera<ons
+6 EDA Findings Key pa[erns, visualiza<ons, and their business interpreta<ons
+7 Sta<s<cal Findings Hypothesis results, effect sizes, and sta<s<cal conclusions in
+business terms
+8 Data Science
+Experiments
+Model results, comparison tables, valida<on metrics, and
+interpreta<on
+9 AI/ML Experiments NLP, LLM, or agentic work, including methodology, results, and
+critical evaluation.
+10 Visualiza<ons High-quality figures with numbered cap<ons and clear
+interpreta<ons
+11 Business
+Recommenda<ons
+Ac<onable recommenda<ons derived from your analysis
+12 Cross-City
+Comparisons
+If applicable: compara<ve insights, regional pa[erns, and market
+dynamics
+13 Limita<ons & Caveats Honest discussion of data limita<ons, model weaknesses, and scope
+boundaries
+14 Future Improvements What you would do next with more <me, be[er data, or addi<onal
+resources
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 16
+15 Reflec<on How you priori<zed work, what trade-offs you made, and key
+lessons learned
+Appendix
+A
+AI Usage Disclosure Full AI tool list, assisted sec<ons, key prompts, and valida<on notes
+📄 Report Format: PDF, minimum 20 pages. Use professional typography, numbered sec<ons, page
+numbers, and a table of contents. Visual consistency is expected.
+13 Evalua'on Rubric
+Your submission will be evaluated across the following dimensions. Scores are holistic and qualitative,
+and this rubric is intended to guide your e;ort rather than serve as a mechanical checklist.
+EvaluaHon Dimension Weight What We Look For
+Problem Solving 30 Approach to unfamiliar problems; structured thinking; trade-off
+awareness
+Data Engineering Quality 25 Pipeline design, cleaning rigor, data modeling, produc<on
+readiness
+StaHsHcal Thinking 20 Appropriate test selec<on, assump<on verifica<on, effect size
+repor<ng
+AnalyHcal Storytelling 20 Business interpreta<on; narra<ve clarity; visualiza<on quality
+Data Science & ML 15 Feature engineering, model selec<on, valida<on, explainability
+AI/ML ExperimentaHon 10 NLP, LLM usage, agen<c design; cri<cal evalua<on of results
+Code Quality 20 Readability, modularity, documenta<on, reproducibility, tes<ng
+CommunicaHon 20 Report clarity; technical accuracy; accessibility to non-technical
+readers
+CreaHvity & IniHaHve 20 Novel approaches; open innova<on; going beyond the brief
+PrioriHzaHon 15 Thoughkul scoping; honest priori<za<on ra<onale; quality over
+quan<ty
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 17
+Professionalism 15 A[en<on to detail; file organiza<on; submission quality
+AI Usage Disclosure 10 Transparency; cri<cal evalua<on of AI outputs; responsible
+prac<ce
+⭐ Important Evalua/on Note
+Candidates who demonstrate thoughtful prioritization, strong reasoning, depth in selected areas, and
+clear communication may outperform candidates who attempt many tasks superficially.
+Candidates who successfully explore multiple cities, multiple analytical disciplines, and greater scope
+may earn additional recognition for handling increased complexity, provided quality is maintained.
+14 Technical Toolkit Guidance
+There are no mandatory tools or languages. We encourage you to use the stack you are most proficient in.
+The following table lists commonly used tools across each category and should be treated as inspiration
+rather than a prescribed set of requirements.
+Category Suggested Tools (not mandatory)
+Languages Python (preferred), SQL, R, Scala, Julia
+Data Processing pandas, polars, PySpark, DuckDB, dbt, SQL
+Visualiza<on matplotlib, seaborn, plotly, Altair, Vega-Lite, Power BI, Tableau
+ML & Sta<s<cs scikit-learn, XGBoost, LightGBM, statsmodels, scipy, PyTorch
+NLP & LLMs spaCy, NLTK, HuggingFace Transformers, LangChain, OpenAI, Anthropic SDK
+Geospa<al GeoPandas, Folium, Kepler.gl, QGIS, deck.gl
+Orchestra<on Prefect, Airflow, Luigi, dbt
+Databases PostgreSQL, DuckDB, SQLite, BigQuery, Snowflake
+Cloud Plakorms AWS (S3, Glue, Athena), GCP (BigQuery, Dataflow), Azure (ADLS, Synapse)
+Containers Docker, docker-compose, Kubernetes (op<onal)
+Dashboards Streamlit, Dash, Observable, Gradio, Metabase
+Version Control Git, GitHub (required for submission)
+AI Coding Tools GitHub Copilot, Cursor, Claude, ChatGPT, Codeium
+Data Engineering Intern - Assignment
+Experne<c (Pvt) Ltd Confiden<al & For Candidate Use Only 18
