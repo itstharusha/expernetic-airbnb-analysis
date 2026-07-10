@@ -2,7 +2,8 @@
 add_save_cell.py  — adds model-serialisation cell to 02_price_prediction.ipynb
 Run once from project root: python add_save_cell.py
 """
-import json, os
+
+import json
 
 NB_PATH = "notebooks/02_price_prediction.ipynb"
 
@@ -18,14 +19,14 @@ save_cell = {
         "# so the Streamlit dashboard can load them without re-training.\n",
         "import os, joblib\n",
         "\n",
-        "MODELS_DIR = \"../models\"\n",
+        'MODELS_DIR = "../models"\n',
         "os.makedirs(MODELS_DIR, exist_ok=True)\n",
         "\n",
         "# Final model (trained on full dataset in the cell above)\n",
-        "joblib.dump(final_model, os.path.join(MODELS_DIR, \"xgboost_model.joblib\"))\n",
+        'joblib.dump(final_model, os.path.join(MODELS_DIR, "xgboost_model.joblib"))\n',
         "\n",
         "# SHAP explainer\n",
-        "joblib.dump(explainer, os.path.join(MODELS_DIR, \"shap_explainer.joblib\"))\n",
+        'joblib.dump(explainer, os.path.join(MODELS_DIR, "shap_explainer.joblib"))\n',
         "\n",
         "# Imputation medians (computed on the training dataframe `df`)\n",
         "IMPUTE_COLS = ['bathrooms', 'bedrooms', 'beds', 'host_listings_count',\n",
@@ -44,13 +45,13 @@ save_cell = {
         "        'Shared room':     0,\n",
         "    },\n",
         "}\n",
-        "joblib.dump(meta, os.path.join(MODELS_DIR, \"model_meta.joblib\"))\n",
+        'joblib.dump(meta, os.path.join(MODELS_DIR, "model_meta.joblib"))\n',
         "\n",
         "print('✅  Model artefacts saved:')\n",
         "for f in sorted(os.listdir(MODELS_DIR)):\n",
         "    size_kb = os.path.getsize(os.path.join(MODELS_DIR, f)) // 1024\n",
-        "    print(f'   {f:<35}  {size_kb:>5} KB')\n"
-    ]
+        "    print(f'   {f:<35}  {size_kb:>5} KB')\n",
+    ],
 }
 
 md_cell = {
@@ -62,8 +63,8 @@ md_cell = {
         "\n",
         "Serialise the fitted XGBoost model, its SHAP explainer, and all feature-engineering\n",
         "metadata (column list, imputation medians, encoding maps) to `models/` so the\n",
-        "Streamlit dashboard can load them without re-training."
-    ]
+        "Streamlit dashboard can load them without re-training.",
+    ],
 }
 
 with open(NB_PATH, "r", encoding="utf-8") as f:

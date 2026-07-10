@@ -1,21 +1,40 @@
+
 import duckdb
 import pandas as pd
 
-def build_warehouse(db_path="data/warehouse.duckdb"):
+from src.logging_config import get_logger
+
+logger = get_logger(__name__)
+
+
+def build_warehouse(db_path: str = "data/warehouse.duckdb") -> None:
+    """
+    Builds the DuckDB warehouse from processed parquet files and raw CSVs.
+    Creates staging, dimension, and fact tables using a star schema design.
+    
+    Args:
+        db_path: Path to the DuckDB database file. Defaults to 'data/warehouse.duckdb'.
+    """
+    logger.info(f"Connecting to DuckDB at {db_path}...")
     con = duckdb.connect(db_path)
 
-    print("Loading cleaned parquet files into DuckDB...")
-    listings = pd.read_parquet("data/processed/listings_clean.parquet")
-    calendar = pd.read_parquet("data/processed/calendar_clean.parquet")
-    reviews = pd.read_parquet("data/processed/reviews_clean.parquet")
-    neighbourhoods = pd.read_csv("data/raw/neighbourhoods.csv")
+    logger.info("Loading cleaned parquet files into DuckDB...")
+    try:
+        listings = pd.read_parquet("data/processed/listings_clean.parquet")  # noqa: F841
+        calendar = pd.read_parquet("data/processed/calendar_clean.parquet")  # noqa: F841
+        reviews = pd.read_parquet("data/processed/reviews_clean.parquet")  # noqa: F841
+        neighbourhoods = pd.read_csv("data/raw/neighbourhoods.csv")  # noqa: F841
+    except Exception as e:
+        logger.error(f"Failed to load required data files: {e}")
+        con.close()
+        raise
 
     con.execute("CREATE OR REPLACE TABLE stg_listings AS SELECT * FROM listings")
     con.execute("CREATE OR REPLACE TABLE stg_calendar AS SELECT * FROM calendar")
     con.execute("CREATE OR REPLACE TABLE stg_reviews AS SELECT * FROM reviews")
     con.execute("CREATE OR REPLACE TABLE stg_neighbourhoods AS SELECT * FROM neighbourhoods")
 
-    print("Building dimension tables...")
+    logger.info("Building dimension tables...")
 
     # DIM_HOST — one row per host
     con.execute("""
@@ -76,7 +95,7 @@ def build_warehouse(db_path="data/warehouse.duckdb"):
         FROM stg_calendar
     """)
 
-    print("Building fact tables...")
+    logger.info("Building fact tables...")
 
     # FACT_LISTING_PERFORMANCE — one row per listing (grain: listing)
     con.execute("""
@@ -140,14 +159,23 @@ def build_warehouse(db_path="data/warehouse.duckdb"):
         INNER JOIN dim_listing l ON r.listing_id = l.listing_id
     """)
 
-    print("\n--- Table row counts ---")
-    for table in ['dim_host', 'dim_neighbourhood', 'dim_listing', 'dim_date',
-                  'fact_listing_performance', 'fact_calendar', 'fact_reviews']:
-        count = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
-        print(f"{table}: {count:,} rows")
+    logger.info("\n--- Table row counts ---")
+    for table in [
+        "dim_host",
+        "dim_neighbourhood",
+        "dim_listing",
+        "dim_date",
+        "fact_listing_performance",
+        "fact_calendar",
+        "fact_reviews",
+    ]:
+        row = con.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
+        count = row[0] if row else 0
+        logger.info(f"{table}: {count:,} rows")
 
     con.close()
-    print(f"\nWarehouse saved to {db_path}")
+    logger.info(f"Warehouse saved to {db_path}")
+
 
 if __name__ == "__main__":
     build_warehouse()
