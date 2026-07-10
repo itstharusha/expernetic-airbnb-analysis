@@ -51,6 +51,7 @@ def get_data(db_path: str) -> pd.DataFrame:
         logger.error(f"Failed to load data: {e}")
         raise
 
+
 def train_model(args: argparse.Namespace) -> None:
     start_time = time.time()
     os.makedirs(MODELS_DIR, exist_ok=True)
@@ -174,12 +175,9 @@ def train_model(args: argparse.Namespace) -> None:
             "learning_rate": args.learning_rate,
             "seed": args.seed
         },
-        "metrics": {
-            "train_mae": mae,
-            "train_rmse": rmse
-        }
+        "metrics": {"train_mae": mae, "train_rmse": rmse}
     }
-    
+
     exp_file = os.path.join(EXPERIMENTS_DIR, f"run_{run_id}.json")
     with open(exp_file, "w") as f:
         json.dump(experiment, f, indent=4)
