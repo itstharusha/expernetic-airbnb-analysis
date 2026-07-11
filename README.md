@@ -172,46 +172,36 @@ streamlit run app/streamlit_dashboard.py
 
 ---
 
-## 🖥️ Streamlit Dashboard Walkthrough
+##  Streamlit Dashboard Walkthrough
 
 The Streamlit dashboard acts as the primary visualization layer. Below are placeholders for tab-specific screenshots to capture once deployed:
 
 ### 1. Market Overview Tab
 High-level KPIs, price distribution histograms, and interactive filter controls (neighbourhood, room type, capacity).
-> **[INSERT SCREENSHOT: Market Overview tab interface showing price histograms and metrics]**
+<img width="1919" height="917" alt="image" src="https://github.com/user-attachments/assets/f266e8be-2b76-4bcd-b0a4-b9e6933f7209" />
+
 
 ### 2. Geographic & Spatial Analysis Tab
 Geographic price tier mappings, spatial distributions, and average pricing gradients across Barcelona.
-> **[INSERT SCREENSHOT: Spatial Analysis map visualization showing district price trends]**
+<img width="1919" height="901" alt="image" src="https://github.com/user-attachments/assets/3fd171a8-ec04-4c8c-8ce0-f14b9816a12b" />
+<img width="1916" height="910" alt="image" src="https://github.com/user-attachments/assets/785c727a-ddf6-4337-bbed-426b1bb8cdf6" />
+
 
 ### 3. Host Intelligence Tab
 Insights on market concentration, portfolio sizes, professionalization rates, and the Superhost review premium.
-> **[INSERT SCREENSHOT: Host Portfolio Concentration showing power-law dominance]**
+<img width="1919" height="911" alt="image" src="https://github.com/user-attachments/assets/29526959-5b24-40bf-a5e0-8e3df05f73fb" />
+
 
 ### 4. AI Pricing Advisor Tab
 Our flagship predictive and generative tab. Input listing parameters to get an XGBoost price estimate, local percentiles, SHAP feature impact, and dynamic strategy from Llama-3.
-> **[INSERT SCREENSHOT: AI Pricing Advisor tab displaying LLM recommendation and SHAP bars]**
+<img width="1919" height="916" alt="image" src="https://github.com/user-attachments/assets/e8bfb13f-3a60-4415-8e03-7a29f4738b2e" />
+
 
 ### 5. AI Market Briefings Tab
-Auto-generated executive briefs, host positioning guidelines, and regulatory alerts regarding the 2028 HUTB licence expiry cliff.
-> **[INSERT SCREENSHOT: AI briefings text interface showing generated market narrative]**
+<img width="1919" height="890" alt="image" src="https://github.com/user-attachments/assets/550bbead-c27a-4af8-a1eb-3be72a3d9ae3" />
 
 ---
 
-## 📊 Analytics and Database Schema
-
-The platform implements a star schema model in DuckDB designed to minimize analytical query latency.
-
-### Fact Table
-* `fact_listing_performance`: Captures nightly prices, availability, review aggregate scores, occupancy proxies, and derived revenue estimates.
-
-### Dimension Tables
-* `dim_listing`: Property capacities, room types, clean parsed amenity arrays, and compliance night constraints.
-* `dim_neighbourhood`: Centroid spatial coordinates and administrative district groupings.
-* `dim_host`: Superhost indicators, total listings counts, response rates, and tenure metrics.
-
-
----
 
 ## Analytics and Database Schema
 
